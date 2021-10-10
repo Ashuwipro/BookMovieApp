@@ -65,7 +65,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    // Get upcoming movies
+    // getting all upcoming movies from API
     let data = null;
     let xhr = new XMLHttpRequest();
     let that = this;
@@ -81,7 +81,7 @@ class Home extends Component {
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(data);
 
-    // Get released movies
+    // getting all released movies from API
     let dataReleased = null;
     let xhrReleased = new XMLHttpRequest();
     xhrReleased.addEventListener("readystatechange", function () {
@@ -96,7 +96,7 @@ class Home extends Component {
     xhrReleased.setRequestHeader("Cache-Control", "no-cache");
     xhrReleased.send(dataReleased);
 
-    // Get filters
+    // getting all filters from API
     let dataGenres = null;
     let xhrGenres = new XMLHttpRequest();
     xhrGenres.addEventListener("readystatechange", function () {
@@ -111,7 +111,7 @@ class Home extends Component {
     xhrGenres.setRequestHeader("Cache-Control", "no-cache");
     xhrGenres.send(dataGenres);
 
-    // Get artists
+    // getting all artists from API
     let dataArtists = null;
     let xhrArtists = new XMLHttpRequest();
     xhrArtists.addEventListener("readystatechange", function () {
@@ -127,6 +127,7 @@ class Home extends Component {
     xhrArtists.send(dataArtists);
   }
 
+  //Handlers to handle events
   movieNameChangeHandler = (event) => {
     this.setState({ movieName: event.target.value });
   };
@@ -194,13 +195,14 @@ class Home extends Component {
       <div>
         <Header baseUrl={this.props.baseUrl} />
 
+        {/* displaying upcoming movies */}
         <div className={classes.upcomingMoviesHeading}>
           <span>Upcoming Movies</span>
         </div>
 
         <GridList cols={5} className={classes.gridListUpcomingMovies}>
           {this.state.upcomingMovies.map((movie) => (
-            <GridListTile key={"upcoming" + movie.id}>
+            <GridListTile key={"upcoming" + movie.id} cellHeight={250}>
               <img
                 src={movie.poster_url}
                 className="movie-poster"
@@ -211,6 +213,7 @@ class Home extends Component {
           ))}
         </GridList>
 
+        {/* displaying released movies */}
         <div className="flex-container">
           <div className="left">
             <GridList
@@ -242,6 +245,8 @@ class Home extends Component {
               ))}
             </GridList>
           </div>
+
+          {/* displaying form to apply filters */}
           <div className="right">
             <Card>
               <CardContent>
