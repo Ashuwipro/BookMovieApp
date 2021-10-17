@@ -202,7 +202,7 @@ class Home extends Component {
 
         <GridList cols={5} className={classes.gridListUpcomingMovies}>
           {this.state.upcomingMovies.map((movie) => (
-            <GridListTile key={"upcoming" + movie.id} cellHeight={250}>
+            <GridListTile key={"upcoming" + movie.id}>
               <img
                 src={movie.poster_url}
                 className="movie-poster"
