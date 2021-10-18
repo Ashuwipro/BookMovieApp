@@ -98,34 +98,41 @@ class Header extends Component {
       ? this.setState({ loginPasswordRequired: "dispBlock" })
       : this.setState({ loginPasswordRequired: "dispNone" });
 
-    let dataLogin = null;
-    let xhrLogin = new XMLHttpRequest();
-    let that = this;
-    xhrLogin.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        sessionStorage.setItem("uuid", JSON.parse(this.responseText).id);
-        sessionStorage.setItem(
-          "access-token",
-          xhrLogin.getResponseHeader("access-token")
-        );
+    if (this.state.username !== "" && this.state.loginPassword !== "") {
+      let dataLogin = null;
+      let xhrLogin = new XMLHttpRequest();
+      let that = this;
+      xhrLogin.addEventListener("readystatechange", function () {
+        if (
+          this.readyState === 4 &&
+          JSON.parse(this.responseText).id !== undefined
+        ) {
+          sessionStorage.setItem("uuid", JSON.parse(this.responseText).id);
+          sessionStorage.setItem(
+            "access-token",
+            xhrLogin.getResponseHeader("access-token")
+          );
 
-        that.setState({
-          loggedIn: true,
-        });
+          that.setState({
+            loggedIn: true,
+          });
 
-        that.closeModalHandler();
-      }
-    });
+          that.closeModalHandler();
+        } else {
+          that.setState({ loggedIn: false });
+        }
+      });
 
-    xhrLogin.open("POST", this.props.baseUrl + "auth/login");
-    xhrLogin.setRequestHeader(
-      "Authorization",
-      "Basic " +
-        window.btoa(this.state.username + ":" + this.state.loginPassword)
-    );
-    xhrLogin.setRequestHeader("Content-Type", "application/json");
-    xhrLogin.setRequestHeader("Cache-Control", "no-cache");
-    xhrLogin.send(dataLogin);
+      xhrLogin.open("POST", this.props.baseUrl + "auth/login");
+      xhrLogin.setRequestHeader(
+        "Authorization",
+        "Basic " +
+          window.btoa(this.state.username + ":" + this.state.loginPassword)
+      );
+      xhrLogin.setRequestHeader("Content-Type", "application/json");
+      xhrLogin.setRequestHeader("Cache-Control", "no-cache");
+      xhrLogin.send(dataLogin);
+    }
   };
 
   inputUsernameChangeHandler = (e) => {
@@ -153,28 +160,36 @@ class Header extends Component {
       ? this.setState({ contactRequired: "dispBlock" })
       : this.setState({ contactRequired: "dispNone" });
 
-    let dataSignup = JSON.stringify({
-      email_address: this.state.email,
-      first_name: this.state.firstname,
-      last_name: this.state.lastname,
-      mobile_number: this.state.contact,
-      password: this.state.registerPassword,
-    });
+    if (
+      this.state.firstname !== "" &&
+      this.state.lastname !== "" &&
+      this.state.email !== "" &&
+      this.state.registerPassword !== "" &&
+      this.state.contact !== ""
+    ) {
+      let dataSignup = JSON.stringify({
+        email_address: this.state.email,
+        first_name: this.state.firstname,
+        last_name: this.state.lastname,
+        mobile_number: this.state.contact,
+        password: this.state.registerPassword,
+      });
 
-    let xhrSignup = new XMLHttpRequest();
-    let that = this;
-    xhrSignup.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        that.setState({
-          registrationSuccess: true,
-        });
-      }
-    });
+      let xhrSignup = new XMLHttpRequest();
+      let that = this;
+      xhrSignup.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          that.setState({
+            registrationSuccess: true,
+          });
+        }
+      });
 
-    xhrSignup.open("POST", this.props.baseUrl + "signup");
-    xhrSignup.setRequestHeader("Content-Type", "application/json");
-    xhrSignup.setRequestHeader("Cache-Control", "no-cache");
-    xhrSignup.send(dataSignup);
+      xhrSignup.open("POST", this.props.baseUrl + "signup");
+      xhrSignup.setRequestHeader("Content-Type", "application/json");
+      xhrSignup.setRequestHeader("Cache-Control", "no-cache");
+      xhrSignup.send(dataSignup);
+    }
   };
 
   inputFirstNameChangeHandler = (e) => {
@@ -311,6 +326,7 @@ class Header extends Component {
               )}
               <br />
               <br />
+
               <Button
                 variant="contained"
                 color="primary"
