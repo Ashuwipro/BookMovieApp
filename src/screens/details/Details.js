@@ -9,6 +9,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Link } from "react-router-dom";
 
+//creating Details component for each movie
 class Details extends Component {
   constructor() {
     super();

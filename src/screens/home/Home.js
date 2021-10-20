@@ -48,6 +48,7 @@ const styles = (theme) => ({
   },
 });
 
+//creating Home component
 class Home extends Component {
   constructor() {
     super();

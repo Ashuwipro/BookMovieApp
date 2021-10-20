@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
 
+//creating custom styles
 const customStyles = {
   content: {
     top: "50%",
@@ -36,6 +37,7 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+//creating Header component
 class Header extends Component {
   constructor() {
     super();
@@ -60,6 +62,8 @@ class Header extends Component {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
     };
   }
+
+  //creating various handlers
 
   openModalHandler = () => {
     this.setState({
